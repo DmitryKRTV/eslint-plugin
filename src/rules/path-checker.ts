@@ -11,12 +11,21 @@ export const pathChecker = ESLintUtils.RuleCreator.withoutDocs<[PathCheckerType]
         messages: {
             error: "import should be relative",
         },
-        schema: [],
-      },
-      defaultOptions: [{
-          alias: '' 
-        }
-      ],
+        schema: [
+          {
+            type: 'object',
+            properties: {
+              alias: {
+                type: 'string'
+              }
+            }
+          }
+        ],
+        },
+        defaultOptions: [{
+            alias: '' 
+          }
+        ],
           create(context) {
             const alias = context.options[0]?.alias || '';
 

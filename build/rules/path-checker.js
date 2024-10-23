@@ -12,7 +12,16 @@ exports.pathChecker = utils_1.ESLintUtils.RuleCreator.withoutDocs({
         messages: {
             error: "import should be relative",
         },
-        schema: [],
+        schema: [
+            {
+                type: 'object',
+                properties: {
+                    alias: {
+                        type: 'string'
+                    }
+                }
+            }
+        ],
     },
     defaultOptions: [{
             alias: ''
@@ -23,7 +32,6 @@ exports.pathChecker = utils_1.ESLintUtils.RuleCreator.withoutDocs({
         const alias = ((_a = context.options[0]) === null || _a === void 0 ? void 0 : _a.alias) || '';
         return {
             ImportDeclaration(node) {
-                // example app/entities/Article
                 const value = node.source.value;
                 const importTo = alias ? value.replace(`${alias}/`, '') : value;
                 const fromFilename = context.filename;
@@ -49,22 +57,17 @@ function shouldBeRelative(from, to) {
         return false;
     }
     const pathSeparator = path_1.default.sep;
-    // example entities/Article
     const toArray = to.split('/');
     const toLayer = toArray[0]; // entities
     const toSlice = toArray[1]; // Article
-    // @ts-ignore
     if (!toLayer || !toSlice || !layers[toLayer]) {
         return false;
     }
     const normalizedPath = path_1.default.toNamespacedPath(from);
-    // @ts-ignore
     const projectFrom = normalizedPath.split('src')[1];
-    // @ts-ignore
     const fromArray = projectFrom.split(pathSeparator);
     const fromLayer = fromArray[1];
     const fromSlice = fromArray[2];
-    // @ts-ignore
     if (!fromLayer || !fromSlice || !layers[fromLayer]) {
         return false;
     }
