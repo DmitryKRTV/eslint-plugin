@@ -1,4 +1,4 @@
-import { RuleTester, RuleTesterConfig } from '@typescript-eslint/rule-tester';
+import { RuleTester } from '@typescript-eslint/rule-tester';
 import { pathChecker } from './path-checker';
 
 const ruleTester = new RuleTester();
