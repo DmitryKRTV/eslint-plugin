@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.pathChecker = void 0;
 const utils_1 = require("@typescript-eslint/utils");
 const path_1 = __importDefault(require("path"));
+const helpers_1 = require("../helpers");
 exports.pathChecker = utils_1.ESLintUtils.RuleCreator.withoutDocs({
     meta: {
         type: "problem",
@@ -42,9 +43,6 @@ exports.pathChecker = utils_1.ESLintUtils.RuleCreator.withoutDocs({
         };
     },
 });
-function isPathRelative(path) {
-    return path === '.' || path.startsWith('./') || path.startsWith('../');
-}
 const layers = {
     "entities": 'entities',
     "features": 'features',
@@ -53,7 +51,7 @@ const layers = {
     "widgets": 'widgets',
 };
 function shouldBeRelative(from, to) {
-    if (isPathRelative(to)) {
+    if ((0, helpers_1.isPathRelative)(to)) {
         return false;
     }
     const pathSeparator = path_1.default.sep;

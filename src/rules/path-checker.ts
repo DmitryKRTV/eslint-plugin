@@ -1,5 +1,6 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 import path from'path';
+import { isPathRelative } from "../helpers";
 
 type PathCheckerType = {
   alias: string
@@ -42,10 +43,6 @@ export const pathChecker = ESLintUtils.RuleCreator.withoutDocs<[PathCheckerType]
             };
           },
     })
-
-function isPathRelative(path: string) {
-  return path === '.' || path.startsWith('./') || path.startsWith('../')
-}
 
 const layers: {[key: string]: string} = {
   "entities": 'entities',
