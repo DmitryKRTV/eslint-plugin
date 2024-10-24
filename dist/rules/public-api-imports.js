@@ -66,7 +66,6 @@ exports.publicApiImports = utils_1.ESLintUtils.RuleCreator.withoutDocs({
                 if (isTestingPublicApi) {
                     const currentFilePath = context.filename;
                     const normalizedPath = path_1.default.toNamespacedPath(currentFilePath);
-                    console.log(normalizedPath);
                     const isCurrentFileTesting = testFilesPatterns.some(pattern => micromatch_1.default.isMatch(normalizedPath, pattern));
                     if (!isCurrentFileTesting) {
                         context.report({ node, messageId: 'firbiddenTesting' });

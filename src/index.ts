@@ -1,3 +1,4 @@
+import { layerImports } from "./rules/layer-imports";
 import { pathChecker } from "./rules/path-checker";
 import { publicApiImports } from "./rules/public-api-imports";
 
@@ -5,11 +6,12 @@ const plugin = {
   // preferred location of name and version
   meta: {
       name: "eslint-plugin-krtv-plugin",
-      version: "0.1.4"
+      version: "0.1.5"
   },
   rules: {
      "path-checker": pathChecker,
      "public-api-imports": publicApiImports,
+     "layer-imports": layerImports
   }
 };
 

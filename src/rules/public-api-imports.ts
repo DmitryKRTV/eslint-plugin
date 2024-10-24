@@ -75,8 +75,6 @@ export const publicApiImports = ESLintUtils.RuleCreator.withoutDocs<[PublicApiIm
                 if(isTestingPublicApi) {
                   const currentFilePath = context.filename;
                   const normalizedPath = path.toNamespacedPath(currentFilePath);
-
-                  console.log(normalizedPath)
         
                   const isCurrentFileTesting = testFilesPatterns.some(
                       pattern => micromatch.isMatch(normalizedPath, pattern)
