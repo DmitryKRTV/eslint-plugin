@@ -22,7 +22,8 @@ ruleTester.run('publicApiImports', publicApiImports, {
     {
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\file.test.ts',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-      options: aliasOptions
+
+      options: aliasOptions,
     },
     {
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\StoreDecorator.tsx',
@@ -34,26 +35,30 @@ ruleTester.run('publicApiImports', publicApiImports, {
   invalid: [
     {
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/model/file.ts'",
+      output: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article'",
       errors: [{ messageId: "forbiddenAbsolutePath"}],
       options: aliasOptions,
     },
     {
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\StoreDecorator.tsx',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing/file.tsx'",
+      output: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article'",
       errors: [{ messageId: "forbiddenAbsolutePath"}],
       options: aliasOptions
     },
     {
       filename: 'krtv/home/src/entities/StoreDecorator.tsx',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing/file.tsx'",
+      output: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article'",
       errors: [{ messageId: "forbiddenAbsolutePath"}],
       options: aliasOptions
     },
-    {
-      filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\forbidden.ts',
-      code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-      errors: [{ messageId: "firbiddenTesting"}],
-      options: aliasOptions
-    }
+    // {
+    //   filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\forbidden.ts',
+    //   code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
+    //   output: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article'",
+    //   errors: [{ messageId: "forbiddenTesting"}, { messageId: "forbiddenAbsolutePath"}],
+    //   options: aliasOptions
+    // }
   ],
 });

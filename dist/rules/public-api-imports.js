@@ -14,8 +14,9 @@ exports.publicApiImports = utils_1.ESLintUtils.RuleCreator.withoutDocs({
         messages: {
             error: "import should be relative",
             forbiddenAbsolutePath: "Absolute import is allowed only from Public API (index.ts)",
-            firbiddenTesting: 'Test data must be imported from publicApi/testing.ts'
+            forbiddenTesting: 'Test data must be imported from publicApi/testing.ts'
         },
+        fixable: 'code',
         schema: [
             {
                 type: 'object',
@@ -54,21 +55,29 @@ exports.publicApiImports = utils_1.ESLintUtils.RuleCreator.withoutDocs({
                 // [entities, article, model, types]
                 const segments = importTo.split('/');
                 const layer = segments[0];
+                const slice = segments[1];
                 if (!layers[layer]) {
                     return;
                 }
                 const isImportNotFromPublicApi = segments.length > 2;
-                // [entities, article, testing]
-                const isTestingPublicApi = segments[2] === 'testing' && segments.length < 4;
+                // [entities, article, testing]+
+                const isTesting = segments[2] === 'testing';
+                const isTestingPublicApi = isTesting && segments.length < 4;
                 if (isImportNotFromPublicApi && !isTestingPublicApi) {
-                    context.report({ node, messageId: 'forbiddenAbsolutePath' });
+                    context.report({
+                        node,
+                        messageId: 'forbiddenAbsolutePath',
+                        fix: (fixer) => {
+                            return fixer.replaceText(node.source, `'${alias}/${layer}/${slice}'`);
+                        }
+                    });
                 }
                 if (isTestingPublicApi) {
                     const currentFilePath = context.filename;
                     const normalizedPath = path_1.default.toNamespacedPath(currentFilePath);
                     const isCurrentFileTesting = testFilesPatterns.some(pattern => micromatch_1.default.isMatch(normalizedPath, pattern));
                     if (!isCurrentFileTesting) {
-                        context.report({ node, messageId: 'firbiddenTesting' });
+                        context.report({ node, messageId: 'forbiddenTesting' });
                     }
                 }
             }

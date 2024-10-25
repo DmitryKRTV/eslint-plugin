@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-krtv-plugin",
-  "version": "0.1.5",
+  "version": "0.1.8",
   "description": "plugin for production project",
   "author": "krtv",
   "main": "dist/index.js",
