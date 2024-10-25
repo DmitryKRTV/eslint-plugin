@@ -12,6 +12,7 @@ export const pathChecker = ESLintUtils.RuleCreator.withoutDocs<[PathCheckerType]
         messages: {
             error: "import should be relative",
         },
+        fixable: 'code',
         schema: [
           {
             type: 'object',
@@ -35,9 +36,27 @@ export const pathChecker = ESLintUtils.RuleCreator.withoutDocs<[PathCheckerType]
                 const value = node.source.value
                 const importTo = alias ? value.replace(`${alias}/`, '') : value;
                 const fromFilename = context.filename;
+                const pathSeparator = path.sep;
           
                 if(shouldBeRelative(fromFilename, importTo)) {
-                  context.report({node, messageId: 'error'});
+                  context.report({
+                    node,
+                    messageId: 'error',
+                    fix: (fixer) => {
+                      const normalizedPath = getNormalizedCurrentFilePath(fromFilename) // /entities/Article/Article.tsx
+                          .split('/')
+                          .slice(0, -1)
+                          .join('/');
+                      let relativePath = path.relative(normalizedPath, `/${importTo}`)
+                          .split(pathSeparator)
+                          .join('/');
+        
+                      if(!relativePath.startsWith('.')) {
+                        relativePath = './' + relativePath;
+                      }
+        
+                      return fixer.replaceText(node.source, `'${relativePath}'`)
+                    }});
                 }
               }
             };
@@ -50,6 +69,13 @@ const layers: {[key: string]: string} = {
   "shared": 'shared',
   "pages": 'pages',
   "widgets": 'widgets',
+}
+
+function getNormalizedCurrentFilePath(currentFilePath: string) {
+  const normalizedPath = path.toNamespacedPath(currentFilePath);
+  const projectFrom = normalizedPath.split('src')[1];
+  const pathSeparator = path.sep;
+  return projectFrom.split(pathSeparator).join('/')
 }
 
 function shouldBeRelative(from: string, to: string) {

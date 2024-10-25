@@ -14,6 +14,7 @@ ruleTester.run('pathChecker', pathChecker, {
     {
       filename: '/home/krtv/eslint-plugin-krtv-plugin/src/entities/Article',
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/model/slices/addCommentFormSlice'",
+      output: "import { addCommentFormActions, addCommentFormReducer } from './Article/model/slices/addCommentFormSlice'",
       errors: [{ messageId: 'error'}],
       options: [{
           alias: '@'
@@ -23,6 +24,7 @@ ruleTester.run('pathChecker', pathChecker, {
     {
       filename: '/home/krtv/eslint-plugin-krtv-plugin/src/entities/Article',
       code: "import { addCommentFormActions, addCommentFormReducer } from 'entities/Article/model/slices/addCommentFormSlice'",
+      output: "import { addCommentFormActions, addCommentFormReducer } from './Article/model/slices/addCommentFormSlice'",
       errors: [{ messageId: 'error'}],
     },
   ],

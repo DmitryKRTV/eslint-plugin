@@ -6,7 +6,7 @@ const plugin = {
   // preferred location of name and version
   meta: {
       name: "eslint-plugin-krtv-plugin",
-      version: "0.1.7"
+      version: "0.1.9"
   },
   rules: {
      "path-checker": pathChecker,
